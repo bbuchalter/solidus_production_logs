@@ -1,6 +1,10 @@
 require "bundler/setup"
 require "solidus_production_logs"
 
+require File.expand_path("../dummy/config/environment.rb", __FILE__)
+
+require "rspec/rails"
+
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
   config.example_status_persistence_file_path = ".rspec_status"

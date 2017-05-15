@@ -1,6 +1,21 @@
-require "bundler/gem_tasks"
-require "rspec/core/rake_task"
+require 'bundler'
+Bundler::GemHelper.install_tasks
 
-RSpec::Core::RakeTask.new(:spec)
+require 'rspec/core/rake_task'
+require 'spree/testing_support/common_rake'
 
-task :default => :spec
+RSpec::Core::RakeTask.new
+
+task :default do
+  if Dir["spec/dummy"].empty?
+    Rake::Task[:test_app].invoke
+    Dir.chdir("../../")
+  end
+  Rake::Task[:spec].invoke
+end
+
+desc 'Generates a dummy app for testing'
+task :test_app do
+  ENV['LIB_NAME'] = 'solidus_production_logs'
+  Rake::Task['common:test_app'].invoke
+end
